@@ -22,18 +22,19 @@ public class Init {
 
         Flyway flyway = new Flyway();
         flyway.setDataSource(ds);
-//        flyway.clean();
+        flyway.clean();
         flyway.migrate();
 
         LSql lSql = new LSql(new PostgresDialect(), ds);
         lSql.table("person");
 
         SchemaExporter schemaExporter = new SchemaExporter(lSql);
-        schemaExporter.setPackageName("com.w11k.example.dto");
-        schemaExporter.setOutputPath(SchemaExporter.pathRelativeToProjectRoot("pom.xml", "src/generated/java"));
+        schemaExporter.setPackageName("com.w11k.lsql.example.dto");
+        schemaExporter.setOutputPath(SchemaExporter.pathRelativeToProjectRoot("pom.xml", "src/main/java"));
         schemaExporter.export();
 
-        new DemoCrud(lSql);
+        DemoCrud demoCrud = new DemoCrud(lSql);
+        demoCrud.run();
     }
 
 }
